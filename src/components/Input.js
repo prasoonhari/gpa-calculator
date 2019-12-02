@@ -1,12 +1,14 @@
 import React from "react";
+import "../App.css";
+import InputLabel from '@material-ui/core/InputLabel';
 
 const Input = props => {
   //console.log(props.value);
   return (
-    <div>
-      <label for={props.name}>
+    <div className ="Form-row">
+      <InputLabel for={props.name}>
         {props.title}
-      </label>
+      </InputLabel>
       <input
         
         id={props.name}

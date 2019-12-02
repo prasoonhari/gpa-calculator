@@ -2,17 +2,14 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 400vmin;
-}
-
 .App-header {
   background-color: grey;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  align-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -22,8 +19,31 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  align-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 0 2.4rem;
+}
+.Form-column-reverse{
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 1 2.4rem;
 }
 
+.Add-Padding{
+  padding: 0rem 2.4rem;
 
+}
+
+.Background-Button{
+  background-color: burlywood;
+}
+
+div-scroll {
+  overflow: scroll;
+}

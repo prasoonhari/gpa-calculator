@@ -5,15 +5,15 @@ import _isFinite from "lodash/isFinite";
 import Select from "./components/Select";
 import { CONVERT } from "./constants/gpaConverter";
 import _get from "lodash/get";
-import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from "@material-ui/core/Button";
+import "./App.css";
 
 const styles = {
-  backgroundColor: "lightgray"
+  backgroundColor: "lightgray",
+  color:"black"
 };
 
-const buttonStyle = {
-  margin: "10px 10px 10px 10px"
-};
 
 export default class Parent extends React.Component {
   constructor(props) {
@@ -111,10 +111,10 @@ export default class Parent extends React.Component {
             title={"Credit"}
             name={"Credit"}
             value={this.state.subject.credit}
-            placeholder={"Enter credit to your subject"}
+            placeholder={"Enter credit"}
             handleChange={this.handleCredit}
           />
-          <label for="Grade">Grade</label>
+          <InputLabel for="Grade">Grade</InputLabel>
           <select
             id="Grade"
             name="Grade"
@@ -132,9 +132,13 @@ export default class Parent extends React.Component {
               );
             })}
           </select>
-          <Button variant="contained" onClick={this.setTotalCredit}>Submit</Button>
+          <div className="Add-Padding">
+          <Button variant="contained" onClick={this.setTotalCredit}>
+            Add Grades
+          </Button>
+          </div>
         </div>
-      </div>
+      </div>     
     );
   }
 }
