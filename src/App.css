@@ -3,11 +3,11 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 400vmin;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: grey;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,6 +17,13 @@
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.Form-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
+
+
