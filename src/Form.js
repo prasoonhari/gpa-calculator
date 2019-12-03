@@ -49,7 +49,8 @@ export default class Parent extends React.Component {
       subject: {
         credit: "",
         grade: "",
-        totalcredit: ""
+        totalcredit: "",
+        course:""
       }
     };
   };
@@ -65,6 +66,18 @@ export default class Parent extends React.Component {
         subject: {
           ...prevState.subject,
           credit: Number.parseFloat(value)
+        }
+      }),
+      () => console.log(this.state.subject)
+    );
+  };
+  handleCourse = e => {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        subject: {
+          ...prevState.subject,
+          course: value
         }
       }),
       () => console.log(this.state.subject)
@@ -132,6 +145,13 @@ export default class Parent extends React.Component {
         <ForClasses>
         {classes => (
           <form className={classes.root} noValidate autoComplete="off">
+          <TextField label="Subject" variant="outlined"
+            type={"text"}
+            id={"course"}
+            value={this.state.subject.course}
+            placeholder={"Enter Subject Name"}
+            onChange={this.handleCourse}
+          />
           <TextField label="Credit" variant="outlined"
             type={"number"}
             id={"Credit"}
@@ -139,6 +159,7 @@ export default class Parent extends React.Component {
             placeholder={"Enter credit"}
             onChange={this.handleCredit}
           />
+          
           </form>
         )}
           </ForClasses>

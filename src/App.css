@@ -47,3 +47,5 @@
 div-scroll {
   overflow: scroll;
 }
+
+.hidden { display:none; }

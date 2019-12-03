@@ -1,34 +1,57 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Form from "./Form";
-import List from '@material-ui/core/List';
 import { withStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import _reject from "lodash/reject";
+import _isEmpty from "lodash/isEmpty";
+import MaterialTable, { Column } from "material-table";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import "./App.css";
+
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const StyledList = withStyles({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
     border: 0,
-    color: 'white',
+    color: "white",
     height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    padding: "0 30px",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)"
   },
   label: {
-    textTransform: 'capitalize',
-  },
+    textTransform: "capitalize"
+  }
 })(ListItem);
+
+
+
+const columns = [
+  { field: "course", title: "Subject" },
+  { field: "credit", title: "Credits" },
+  {
+    field: "grade",
+    title: "Grades"
+  }
+];
 
 export default class Parent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       subjectCounter: [],
-      totalGpa: ""
+      totalGpa: 0,
+      alertOpen: false
     };
   }
 
@@ -46,7 +69,7 @@ export default class Parent extends React.Component {
       const totalCredits = subjectCounter.reduce((accum, item) => {
         return accum + item.credit;
       }, 0);
-      return { totalGpa: totalCreditScore / totalCredits };
+      return { totalGpa: totalCreditScore / totalCredits, alertOpen: true };
     });
   };
   onDeleteItem = m => {
@@ -62,17 +85,27 @@ export default class Parent extends React.Component {
     });
   };
 
+  handleAlertClose = () => {
+    this.setState(prevState => {
+      return {
+        alertOpen: false
+      };
+    });
+  };
   render() {
     return (
+      
       <div>
-        <div className="div-scroll"> 
-        
+        {/* <div className="div-scroll">
           <List dense>
-          <p>Grades received:</p>
+            <p>Grades received:</p>
             {this.state.subjectCounter.map(m => (
-              
               <StyledList button className="Background-Button">
-                <ListItemText primary={`Credits = ${JSON.stringify(m.credit)} Grades = ${JSON.stringify(m.grade)}`} />
+                <ListItemText
+                  primary={`Credits = ${JSON.stringify(
+                    m.credit
+                  )} Grades = ${JSON.stringify(m.grade)}`}
+                />
                 <ListItemSecondaryAction>
                   <button
                     style={{ float: "right" }}
@@ -85,19 +118,53 @@ export default class Parent extends React.Component {
                 </ListItemSecondaryAction>
               </StyledList>
             ))}
-            </List>
-          </div>
-        
+          </List>
+        </div> */}
+        <div className={_isEmpty(this.state.subjectCounter) ? 'hidden' : ''}>
+        <MaterialTable
+          title="Subjects/Courses"
+          columns={columns}
+          data={this.state.subjectCounter}
+          options={{ search: false, sorting: false, paging: false }}
+          editable={{
+            onRowDelete: oldData =>
+              Promise.resolve(
+                this.setState(prevState => {
+                  const data = [...prevState.subjectCounter];
+                  data.splice(data.indexOf(oldData), 1);
+                  return { ...prevState, subjectCounter: data };
+                })
+              )
+          }}
+        />
+        </div>
         <Form onSubmit={this.handleSubmit} />
-        <div className="Form-column-reverse">
+
+        <div>
           <Button
             variant="contained"
-            type="button"
+            color="primary"
             onClick={this.handleFullSubmit}
           >
-            Submit
+            Click For Overall GPA
           </Button>
-          <p>Your Overall GPA :{this.state.totalGpa}</p>
+          <Dialog
+            open={this.state.alertOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.handleAlertClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle id="alert-dialog-slide-title">
+              {"Overall GPA"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Your Overall GPA : {this.state.totalGpa}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     );
