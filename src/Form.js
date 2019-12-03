@@ -2,19 +2,42 @@ import React from "react";
 import Input from "./components/Input";
 import _isNumber from "lodash/isNumber";
 import _isFinite from "lodash/isFinite";
-import Select from "./components/Select";
+import Select from "@material-ui/core/Select";
 import { CONVERT } from "./constants/gpaConverter";
 import _get from "lodash/get";
-import InputLabel from '@material-ui/core/InputLabel';
+import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
 import "./App.css";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
 
 const styles = {
   backgroundColor: "lightgray",
-  color:"black"
+  color: "black"
 };
 
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  },
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  }
+}));
 
+const ForClasses = ({ children }) => {
+  const classes = useStyles();
+  return children(classes);
+};
 export default class Parent extends React.Component {
   constructor(props) {
     super(props);
@@ -106,39 +129,51 @@ export default class Parent extends React.Component {
     return (
       <div style={styles}>
         <div id="my-form" onSubmit={this.handleFormSubmit} className="Form-row">
-          <Input
-            inputType={"number"}
-            title={"Credit"}
-            name={"Credit"}
+        <ForClasses>
+        {classes => (
+          <form className={classes.root} noValidate autoComplete="off">
+          <TextField label="Credit" variant="outlined"
+            type={"number"}
+            id={"Credit"}
             value={this.state.subject.credit}
             placeholder={"Enter credit"}
-            handleChange={this.handleCredit}
+            onChange={this.handleCredit}
           />
-          <InputLabel for="Grade">Grade</InputLabel>
-          <select
-            id="Grade"
-            name="Grade"
-            onChange={this.handleGrade}
-            value={this.state.subject.grade}
-          >
-            <option value="" disabled>
-              Please select Grades
-            </option>
-            {Object.keys(CONVERT).map(option => {
-              return (
-                <option key={option} value={option} label={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
+          </form>
+        )}
+          </ForClasses>
+          <ForClasses>
+            {classes => (
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="Grade">Grade</InputLabel>
+                <Select
+                  labelId="Grade"
+                  name="Grade"
+                  labelWidth="56"
+                  onChange={this.handleGrade}
+                  value={this.state.subject.grade}
+                >
+                  <MenuItem value="" disabled>
+                    Please select Grades
+                  </MenuItem>
+                  {Object.keys(CONVERT).map(option => {
+                    return (
+                      <MenuItem key={option} value={option} label={option}>
+                        {option}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            )}
+          </ForClasses>
           <div className="Add-Padding">
-          <Button variant="contained" onClick={this.setTotalCredit}>
-            Add Grades
-          </Button>
+            <Button variant="contained" onClick={this.setTotalCredit}>
+              Add Grades
+            </Button>
           </div>
         </div>
-      </div>     
+      </div>
     );
   }
 }
