@@ -10,7 +10,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import Logo from "./assets/icon.png";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -59,7 +58,7 @@ export default class Header extends React.Component {
         <ForClasses>
           {classes => (
             <div className={classes.root}>
-              <AppBar position="static">
+              <AppBar position="Fixed">
                 <Toolbar>
                   <IconButton
                     edge="start"
@@ -70,7 +69,7 @@ export default class Header extends React.Component {
                   <img width= {40} src={Logo} alt="website logo" /></a>
                   </IconButton>
                   <Typography variant="h6" className={classes.title} align="left">
-                             GPA Converter
+                             GPA Calculator
                   </Typography>
                   <Button color="inherit" onClick={this.handleHowToUse}>
                     How to use it!
@@ -96,7 +95,7 @@ export default class Header extends React.Component {
             <DialogContentText id="alert-dialog-slide-description">
               <p>Enter the grades (Scaled on 10) and credits for all the subjects or courses you have taken during the course of 
               your undergraduate.</p>
-              <p>This is a CGPA to GPA converter that changes the CGPA based on the scale of 10 to the conventional
+              <p>This is a CGPA to GPA Calculator that changes the CGPA based on the scale of 10 to the conventional
               GPA i.e of the scale 4.</p>
               Even if you got your score in percentage, put the closest scaled Value (For eg. for percentage between
               75 and 85, choose 8)

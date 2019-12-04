@@ -1,6 +1,4 @@
 import React from "react";
-import Input from "./components/Input";
-import _isNumber from "lodash/isNumber";
 import _isFinite from "lodash/isFinite";
 import Select from "@material-ui/core/Select";
 import { CONVERT } from "./constants/gpaConverter";
